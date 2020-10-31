@@ -42,8 +42,10 @@ app.get("/messages/:id", function (request, response) {
   response.json(foundMessage);
 });
 
-
+const listener = app.listen(process.env.PORT || 4000, function () {
+  console.log("Your app is listening on port " + listener.address().port);
+});
 
 // app.listen(process.env.PORT);
 
-app.listen(4000);
+// app.listen(4000);
