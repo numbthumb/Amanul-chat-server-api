@@ -3,6 +3,9 @@ const cors = require("cors");
 
 const app = express();
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 app.use(cors());
 
 const welcomeMessage = {
@@ -20,4 +23,27 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.get("/messages", function (request, response) {
+  response.json(messages);
+});
+
+app.post("/messages", function (request, response) {
+  let newMessage = request.body;
+  console.log(request.body)
+  newMessage.id = messages.length;
+  messages.push(newMessage);
+  response.send("Message created")
+});
+
+app.get("/messages/:id", function (request, response) {
+  
+  let id = request.params.id;
+  let foundMessage = messages.find(item => item.id == id)
+  response.json(foundMessage);
+});
+
+
+
+// app.listen(process.env.PORT);
+
+app.listen(4000);
